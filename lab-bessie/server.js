@@ -4,10 +4,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
-const debug = require('debug')('note:server');
+const debug = require('debug')('dog:server');
 
 // Router
-const noteRouter = require('./route/note-router.js');
+const dogRouter = require('./route/dog-router.js');
 
 // Custom middleware
 const cors = require('./lib/cors-middleware.js');
@@ -20,7 +20,11 @@ const app = express();
 // Application middleware
 app.use(morgan('dev'));
 app.use(cors);
-app.use(noteRouter);
+app.use(dogRouter);
+app.use(function (req, res, next) {
+  res.status(404).send('Sorry can\'t find that!');
+  next();
+});
 app.use(errors);
 
 app.listen(PORT, () => {
